@@ -1,0 +1,28 @@
+{
+  "name": "delivery-ai-agents-common",
+  "version": "1.0.0",
+  "description": "Shared AI agent SDK for ShadowSpark delivery platforms: agent loop, typed tools, prompts, escalation, MockLLM + OpenAI-compatible LLM adapters.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "keywords": ["ai", "agent", "sdk", "delivery", "shadowspark"],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
