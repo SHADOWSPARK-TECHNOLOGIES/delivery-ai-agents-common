@@ -31,7 +31,7 @@ export function createDispatchTools(clients: DispatchToolClients): ToolDefinitio
       description: 'Assign the nearest available driver to a shipment.',
       keywords: ['assign driver', 'find a driver', 'send a driver', 'who can pick up'],
       extract: (text) => {
-        const m = text.match(/\b([A-Z]{2,3}[-_])?([A-Z0-9]{6,})\b/i);
+        const m = text.match(/\b[A-Z]{2,4}[-_][A-Z0-9][A-Z0-9-]{2,}\b/i);
         return { shipmentId: m ? m[0].toUpperCase() : undefined };
       },
       parameters: { ...paramSchema },

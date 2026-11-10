@@ -35,11 +35,15 @@ export interface OrderToolClients {
   initiateReturn: (input: OrderRefInput) => Promise<ToolResult> | ToolResult;
 }
 
-const orderIdRe = /\b([A-Z]{2,3}[-_])?([A-Z0-9]{6,})\b/i;
+// Matches whole order references like ORD-FG-7W2K9P, SSK-1001, ORD-123ABC.
+const orderIdRe = /\b[A-Z]{2,4}[-_][A-Z0-9][A-Z0-9-]{2,}\b/gi;
 
 function grabOrderId(text: string, existing: Record<string, unknown>): Record<string, unknown> {
-  const found = text.match(orderIdRe);
-  if (found) return { ...existing, orderId: found[0].toUpperCase() };
+  const candidates = text.match(orderIdRe);
+  if (candidates && candidates.length > 0) {
+    const best = [...candidates].sort((a, b) => b.length - a.length)[0];
+    return { ...existing, orderId: best.toUpperCase() };
+  }
   return existing;
 }
 
