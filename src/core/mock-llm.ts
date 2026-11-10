@@ -79,6 +79,17 @@ export class MockLLM implements LLMAdapter {
 
     if (d.reply) return String(d.reply);
 
+    // support ticket created (damage/refund/complaint)
+    if (d.summary && (d.type || d.severity || d.compensationOptions)) {
+      let s = `We've opened ${d.id ? `ticket ${d.id}` : 'a support ticket'} for ${d.trackingId ?? 'your parcel'}`;
+      if (d.severity) s += ` (${d.severity} priority)`;
+      s += `. ${d.summary}`;
+      if (Array.isArray(d.compensationOptions) && d.compensationOptions.length) {
+        s += ` Compensation options: ${d.compensationOptions.join(' · ')}.`;
+      }
+      return s;
+    }
+
     // order status + ETA
     if (d.status && !d.changed && !d.updated) {
       let s = `Current status: ${d.status}.`;
